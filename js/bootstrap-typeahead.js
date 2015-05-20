@@ -26,7 +26,7 @@
     var that = this;
     that.$element = $(element);
     that.options = $.extend({}, $.fn.typeahead.defaults, options);
-    that.$menu = $(that.options.menu).insertAfter(that.$element);
+    that.$menu = $(that.options.menu).insertAfter(jQuery('body'));
 
     // Method overrides
     that.eventSupported = that.options.eventSupported || that.eventSupported;
@@ -108,7 +108,7 @@
       return item;
     },
     show: function () {
-      var pos = $.extend({}, this.$element.position(), {
+      var pos = $.extend({}, this.$element.offset(), {
         height: this.$element[0].offsetHeight
       });
 
@@ -117,7 +117,7 @@
         left: pos.left
       });
 
-      if (this.options.alignWidth) {
+      if(this.options.alignWidth) {
         var width = $(this.$element[0]).outerWidth();
         this.$menu.css({
           width: width
@@ -199,8 +199,11 @@
 
       // Manipulate objects
       items = that.grepper(that.ajax.data) || [];
+
+      // Added by Andy Hoffner, to show no results as an item
       if (!items.length) {
-        return that.shown ? that.hide() : that;
+        items = [{'id': -21, 'display_name': "Result not Found"}];
+        //return that.shown ? that.hide() : that;
       }
 
       that.ajax.xhr = null;
@@ -231,7 +234,7 @@
         }
         //Bhanu added a custom message- Result not Found when no result is found
         if (items.length == 0) {
-          items[0] = {'id': -21, 'name': "Result not Found"}
+          items[0] = {'id': -21, 'display_name': "No matches."}
         }
         return that.render(items.slice(0, that.options.items)).show();
       }
@@ -263,7 +266,7 @@
     highlighter: function (item) {
       var query = this.query.replace(/[\-\[\]{}()*+?.,\\\^$|#\s]/g, '\\$&');
       return item.replace(new RegExp('(' + query + ')', 'ig'), function ($1, match) {
-        return '<strong>' + match + '</strong>';
+        return '<strong class="text-danger">' + match + '</strong>';
       });
     },
     render: function (items) {
@@ -277,7 +280,13 @@
           display = item;
           i = $(that.options.item).attr('data-value', item);
         }
-        i.find('a').html(that.highlighter(display));
+        if(i.find('a').length > 0){
+          i.find('a').html(that.highlighter(display));
+        }
+        else{
+          i.html(that.highlighter(display));
+        }
+
         return i[0];
       });
 
@@ -455,7 +464,7 @@
       if (!this.focused && this.shown)
         this.hide()
     },
-    destroy: function () {
+    destroy: function() {
       this.$element
           .off('focus', $.proxy(this.focus, this))
           .off('blur', $.proxy(this.blur, this))
