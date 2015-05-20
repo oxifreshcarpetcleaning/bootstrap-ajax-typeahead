@@ -91,7 +91,12 @@
     select: function () {
       var $selectedItem = this.$menu.find('.active');
       var value = $selectedItem.attr('data-value');
-      var text = this.$menu.find('.active a').text();
+      if(typeof this.options.selectField != 'undefined'){
+        var text = $selectedItem.attr('data-select-text');
+      }
+      else{
+        var text = this.$menu.find('.active a').text();
+      }
 
       if (this.options.onSelect) {
         this.options.onSelect({
@@ -137,7 +142,7 @@
 
       var query = $.trim(this.$element.val());
 
-      if (query === this.query) {
+      if (query === this.query && !this.options.ajax.forceReload) {
         return this;
       }
 
@@ -280,11 +285,17 @@
           display = item;
           i = $(that.options.item).attr('data-value', item);
         }
+
         if(i.find('a').length > 0){
           i.find('a').html(that.highlighter(display));
         }
         else{
           i.html(that.highlighter(display));
+        }
+
+
+        if(typeof that.options.selectField != 'undefined'){
+          i.attr('data-select-text', item[that.options.selectField]);
         }
 
         return i[0];
@@ -508,12 +519,14 @@
     item: '<li><a href="#"></a></li>',
     valueField: 'id',
     displayField: 'name',
+    selectField: 'name',
     onSelect: function () {
     },
     ajax: {
       url: null,
       timeout: 300,
       method: 'get',
+      forceReload: false,
       triggerLength: 1,
       loadingClass: null,
       preDispatch: null,
