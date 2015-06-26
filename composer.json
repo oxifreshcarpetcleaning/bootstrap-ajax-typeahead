@@ -1,0 +1,35 @@
+{
+    "name": "ahoffner/bs-typeahead",
+    "version": "0.0.5",
+    "description": "Twitter Bootstrap Ajax Typeahead Plugin",
+    "require": {
+        "components/jquery": ">= 1.9.0",
+        "twitter/bootstrap": ">= 3.0.0"
+    },
+    "authors": [
+        {
+            "name": "Twitter Inc.",
+            "url": "https://twitter.com/twitteross"
+        },
+      {
+        "name": "Paul Warelis",
+        "url": "https://github.com/pwarelis"
+      },
+      {
+        "name": "Alexey Gordeyev",
+        "url": "https://github.com/biggora"
+      },
+      {
+        "name": "Andy Hoffner",
+        "url": "andyhoffner.com"
+      }
+    ],
+  "keywords": [
+    "typeahead",
+    "bootstrap",
+    "plugin",
+    "autocomplete",
+    "ajax"
+  ],
+  "license": "MIT"
+}
