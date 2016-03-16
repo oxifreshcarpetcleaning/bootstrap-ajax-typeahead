@@ -316,7 +316,12 @@
         if (data[0].hasOwnProperty(that.options.displayField)) {
           items = $.grep(data, function (item) {
             display = isString ? item[that.options.displayField] : that.options.displayField(item);
-            return that.matcher(display);
+
+            // Modified from base by Andy Hoffner 3/15/16 to show all returned results
+            var matchedValue = that.matcher(display);
+            matchedValue = matchedValue == 0 ? display : matchedValue ;
+
+            return matchedValue;
           });
         } else if (typeof data[0] === 'string') {
           items = $.grep(data, function (item) {
