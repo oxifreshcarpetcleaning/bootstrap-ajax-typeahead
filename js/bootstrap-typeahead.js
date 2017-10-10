@@ -99,14 +99,15 @@
       }
 
       if (this.options.onSelect) {
-        this.options.onSelect({
+        var bound = this.options.onSelect.bind(this)
+        bound({
           value: value,
           text: text
         });
       }
       this.$element
-          .val(this.updater(text))
-          .change();
+        .val(this.updater(text))
+        .change();
       return this.hide();
     },
     updater: function (item) {
@@ -250,9 +251,9 @@
     sorter: function (items) {
       if (!this.options.ajax) {
         var beginswith = [],
-            caseSensitive = [],
-            caseInsensitive = [],
-            item;
+          caseSensitive = [],
+          caseInsensitive = [],
+          item;
 
         while (item = items.shift()) {
           if (!item.toLowerCase().indexOf(this.query.toLowerCase()))
@@ -337,7 +338,7 @@
     },
     next: function (event) {
       var active = this.$menu.find('.active').removeClass('active'),
-          next = active.next();
+        next = active.next();
 
       if (!next.length) {
         next = $(this.$menu.find('li')[0]);
@@ -354,7 +355,7 @@
     },
     prev: function (event) {
       var active = this.$menu.find('.active').removeClass('active'),
-          prev = active.prev();
+        prev = active.prev();
 
       if (!prev.length) {
         prev = this.$menu.find('li').last();
@@ -377,19 +378,19 @@
     },
     listen: function () {
       this.$element
-          .on('focus', $.proxy(this.focus, this))
-          .on('blur', $.proxy(this.blur, this))
-          .on('keypress', $.proxy(this.keypress, this))
-          .on('keyup', $.proxy(this.keyup, this));
+        .on('focus', $.proxy(this.focus, this))
+        .on('blur', $.proxy(this.blur, this))
+        .on('keypress', $.proxy(this.keypress, this))
+        .on('keyup', $.proxy(this.keyup, this));
 
       if (this.eventSupported('keydown')) {
         this.$element.on('keydown', $.proxy(this.keydown, this))
       }
 
       this.$menu
-          .on('click', $.proxy(this.click, this))
-          .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
-          .on('mouseleave', 'li', $.proxy(this.mouseleave, this))
+        .on('click', $.proxy(this.click, this))
+        .on('mouseenter', 'li', $.proxy(this.mouseenter, this))
+        .on('mouseleave', 'li', $.proxy(this.mouseleave, this))
     },
     move: function (e) {
       if (!this.shown)
@@ -482,19 +483,19 @@
     },
     destroy: function() {
       this.$element
-          .off('focus', $.proxy(this.focus, this))
-          .off('blur', $.proxy(this.blur, this))
-          .off('keypress', $.proxy(this.keypress, this))
-          .off('keyup', $.proxy(this.keyup, this));
+        .off('focus', $.proxy(this.focus, this))
+        .off('blur', $.proxy(this.blur, this))
+        .off('keypress', $.proxy(this.keypress, this))
+        .off('keyup', $.proxy(this.keyup, this));
 
       if (this.eventSupported('keydown')) {
         this.$element.off('keydown', $.proxy(this.keydown, this))
       }
 
       this.$menu
-          .off('click', $.proxy(this.click, this))
-          .off('mouseenter', 'li', $.proxy(this.mouseenter, this))
-          .off('mouseleave', 'li', $.proxy(this.mouseleave, this))
+        .off('click', $.proxy(this.click, this))
+        .off('mouseenter', 'li', $.proxy(this.mouseenter, this))
+        .off('mouseleave', 'li', $.proxy(this.mouseleave, this))
       this.$element.removeData('typeahead');
     }
   };
@@ -506,8 +507,8 @@
   $.fn.typeahead = function (option) {
     return this.each(function () {
       var $this = $(this),
-          data = $this.data('typeahead'),
-          options = typeof option === 'object' && option;
+        data = $this.data('typeahead'),
+        options = typeof option === 'object' && option;
       if (!data)
         $this.data('typeahead', (data = new Typeahead(this, options)));
       if (typeof option === 'string')
